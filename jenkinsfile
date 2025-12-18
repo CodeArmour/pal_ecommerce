@@ -1,0 +1,38 @@
+pipeline {
+  agent any
+
+  options {
+    timestamps()
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+
+    stage('Setup Node & pnpm') {
+      steps {
+        bat """
+          node -v
+          corepack enable
+          corepack prepare pnpm@10.9.0 --activate
+          pnpm -v
+        """
+      }
+    }
+
+    stage('Install dependencies') {
+      steps {
+        bat "pnpm install --frozen-lockfile"
+      }
+    }
+
+    stage('Build') {
+      steps {
+        bat "pnpm build"
+      }
+    }
+  }
+}
