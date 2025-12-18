@@ -1,0 +1,22 @@
+services:
+  api:
+    build:
+      context: .
+      target: api
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+
+  web:
+    build:
+      context: .
+      target: web
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      # if your Next app uses an API base URL, set it here:
+      # - NEXT_PUBLIC_API_URL=http://localhost:3001
+    depends_on:
+      - api
