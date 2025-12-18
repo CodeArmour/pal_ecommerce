@@ -23,8 +23,8 @@ WORKDIR /repo
 # Copy the rest of the source
 COPY . .
 
-# Build all (turbo)
-RUN pnpm build
+# Create a production deploy folder for the API (includes node_modules)
+RUN pnpm --filter @apps/api deploy --prod /deploy/api
 
 
 # ---------- API runtime ----------
@@ -32,8 +32,8 @@ FROM node:20-alpine AS api
 WORKDIR /app
 ENV NODE_ENV=production
 
-# Copy only what api needs at runtime
-COPY --from=build /repo/apps/api/dist ./dist
+# Copy the deployed prod folder (contains dist + node_modules)
+COPY --from=build /deploy/api ./
 
 EXPOSE 3001
 CMD ["node", "dist/index.js"]
@@ -44,10 +44,10 @@ FROM node:20-alpine AS web
 WORKDIR /app
 ENV NODE_ENV=production
 
-# Next standalone output includes server.js + minimal node_modules
+# standalone output includes apps/web/server.js in monorepos
 COPY --from=build /repo/apps/web/.next/standalone ./
-COPY --from=build /repo/apps/web/.next/static ./.next/static
-COPY --from=build /repo/apps/web/public ./public
+COPY --from=build /repo/apps/web/.next/static ./apps/web/.next/static
+COPY --from=build /repo/apps/web/public ./apps/web/public
 
 EXPOSE 3000
-CMD ["node", "server.js"]
+CMD ["node", "apps/web/server.js"]
