@@ -13,26 +13,30 @@ pipeline {
     }
 
     stage('Setup Node & pnpm') {
-      steps {
-        bat """
-          node -v
-          corepack enable
-          corepack prepare pnpm@10.9.0 --activate
-          pnpm -v
-        """
-      }
+       steps {
+            bat """
+            echo Node:
+            node -v
+
+            echo Installing pnpm globally (skip corepack)...
+            npm i -g pnpm@10.9.0
+
+            echo pnpm:
+            pnpm -v
+            """
+        }
     }
 
+
     stage('Install dependencies') {
-      steps {
-        bat "pnpm install --frozen-lockfile"
-      }
+        steps {
+            bat "pnpm install --frozen-lockfile"
+        }
     }
 
     stage('Build') {
-      steps {
-        bat "pnpm build"
-      }
+    steps {
+            bat "pnpm build"
+        }
     }
-  }
 }
