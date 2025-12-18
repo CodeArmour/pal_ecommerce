@@ -27,24 +27,25 @@ pipeline {
     }
 
     stage('Install dependencies') {
-      steps {
-        bat """
-          echo ===== pnpm via npx (no corepack) =====
-          npx -y pnpm@%PNPM_VERSION% --version
+        steps {
+            bat "echo ===== pnpm via npx (no corepack) ====="
+            bat "npx -y pnpm@%PNPM_VERSION% --version"
 
-          echo ===== Installing workspace deps =====
-          npx -y pnpm@%PNPM_VERSION% install --frozen-lockfile
+            bat "echo ===== Installing workspace deps ====="
+            bat "npx -y pnpm@%PNPM_VERSION% install --frozen-lockfile"
 
-          echo ===== Turbo version =====
-          if exist node_modules\\.bin\\turbo.cmd (
-            node_modules\\.bin\\turbo.cmd --version
-          ) else (
-            echo turbo not found in node_modules\\.bin
-            exit /b 1
-          )
-        """
-      }
+            bat "echo ===== Turbo version ====="
+            bat """
+            if exist node_modules\\.bin\\turbo.cmd (
+                node_modules\\.bin\\turbo.cmd --version
+            ) else (
+                echo turbo not found in node_modules\\.bin
+                exit /b 1
+            )
+            """
+        }
     }
+
 
     stage('Build') {
       steps {
