@@ -11,11 +11,5 @@
     "resolveJsonModule": true,
 
     "baseUrl": ".",
-    "paths": {
-      "@pal/utils": ["packages/utils/src"],
-      "@pal/utils/*": ["packages/utils/src/*"],
-      "@pal/ui": ["packages/ui/src"],
-      "@pal/ui/*": ["packages/ui/src/*"]
-    }
   }
 }
