@@ -4,7 +4,7 @@
   "packageManager": "pnpm@10.9.0",
   "scripts": {
     "dev": "turbo run dev --parallel",
-    "build": "turbo run build",
+    "build": "tsc -p tsconfig.build.json",
     "lint": "turbo run lint",
     "test": "turbo run test"
   },
