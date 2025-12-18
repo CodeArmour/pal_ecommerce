@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    // Next.js needs this:
+    "jsx": "preserve",
+
+    // Typical Next.js TS options:
+    "allowJs": true,
+    "noEmit": true,
+    "incremental": true,
+
+    // Optional but nice:
+    "types": ["node"]
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
+}

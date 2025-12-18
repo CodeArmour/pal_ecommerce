@@ -1,0 +1,10 @@
+# Next.js
+.next
+dev
+out
+
+# TypeScript builds
+dist
+
+# pnpm
+node_modules

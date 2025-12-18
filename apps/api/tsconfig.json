@@ -1,0 +1,7 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true      // <- let tsx run the code, TS only type-checks
+  },
+  "include": ["src"]
+}
