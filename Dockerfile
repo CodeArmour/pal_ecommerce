@@ -34,12 +34,6 @@ ENV NODE_ENV=production
 
 # Copy only what api needs at runtime
 COPY --from=build /repo/apps/api/dist ./dist
-COPY --from=build /repo/apps/api/package.json ./package.json
-
-# If API has runtime deps (express), we need node_modules for api
-# easiest: install prod deps just for api
-RUN corepack enable && corepack prepare pnpm@10.9.0 --activate \
-  && pnpm install --prod
 
 EXPOSE 3001
 CMD ["node", "dist/index.js"]
