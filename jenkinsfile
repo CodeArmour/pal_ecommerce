@@ -1,16 +1,25 @@
 pipeline {
   agent any
 
-  options { timestamps() }
+  options {
+    timestamps()
+  }
+
+  environment {
+    PNPM_VERSION = "10.9.0"
+  }
 
   stages {
     stage('Checkout') {
-      steps { checkout scm }
+      steps {
+        checkout scm
+      }
     }
 
     stage('Setup Node') {
       steps {
         bat """
+          echo === Node & npm ===
           node -v
           npm -v
         """
@@ -20,8 +29,19 @@ pipeline {
     stage('Install dependencies') {
       steps {
         bat """
-          npx -y pnpm@10.9.0 --version
-          npx -y pnpm@10.9.0 install --frozen-lockfile
+          echo === pnpm via npx (no corepack) ===
+          npx -y pnpm@%PNPM_VERSION% --version
+
+          echo === Installing workspace deps ===
+          npx -y pnpm@%PNPM_VERSION% install --frozen-lockfile
+
+          echo === Confirm turbo is available ===
+          if exist node_modules\\.bin\\turbo.cmd (
+            node_modules\\.bin\\turbo.cmd --version
+          ) else (
+            echo turbo not found in node_modules\\.bin
+            exit /b 1
+          )
         """
       }
     }
@@ -29,9 +49,16 @@ pipeline {
     stage('Build') {
       steps {
         bat """
-          npx -y pnpm@10.9.0 build
+          echo === Build (turbo run build) ===
+          npx -y pnpm@%PNPM_VERSION% build
         """
       }
+    }
+  }
+
+  post {
+    always {
+      echo "Done."
     }
   }
 }
