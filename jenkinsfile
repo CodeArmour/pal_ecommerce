@@ -19,7 +19,7 @@ pipeline {
     stage('Setup Node') {
       steps {
         bat """
-          echo === Node & npm ===
+          echo ===== Node and npm =====
           node -v
           npm -v
         """
@@ -29,13 +29,13 @@ pipeline {
     stage('Install dependencies') {
       steps {
         bat """
-          echo === pnpm via npx (no corepack) ===
+          echo ===== pnpm via npx (no corepack) =====
           npx -y pnpm@%PNPM_VERSION% --version
 
-          echo === Installing workspace deps ===
+          echo ===== Installing workspace deps =====
           npx -y pnpm@%PNPM_VERSION% install --frozen-lockfile
 
-          echo === Confirm turbo is available ===
+          echo ===== Turbo version =====
           if exist node_modules\\.bin\\turbo.cmd (
             node_modules\\.bin\\turbo.cmd --version
           ) else (
@@ -49,7 +49,7 @@ pipeline {
     stage('Build') {
       steps {
         bat """
-          echo === Build (turbo run build) ===
+          echo ===== Build =====
           npx -y pnpm@%PNPM_VERSION% build
         """
       }
