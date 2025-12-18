@@ -3,11 +3,11 @@
   "private": true,
   "packageManager": "pnpm@10.9.0",
   "scripts": {
-    "dev": "turbo run dev --parallel",
-    "build": "tsc -p tsconfig.build.json",
-    "lint": "turbo run lint",
-    "test": "turbo run test"
-  },
+  "dev": "turbo run dev --parallel",
+  "build": "turbo run build",
+  "lint": "turbo run lint",
+  "test": "turbo run test"
+},
   "devDependencies": {
     "@types/node": "^24.10.1",
     "eslint": "^9.x",
